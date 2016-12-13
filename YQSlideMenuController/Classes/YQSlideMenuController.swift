@@ -18,9 +18,13 @@ class YQSlideMenuController: UIViewController {
     private let leftMenuViewController: UIViewController
     private let contentViewController: UIViewController
     private var slideStyle: YQSlideStyle = .normal
+    private var menuViewVisibleWidth: CGFloat = 0
     private var contentViewVisibleWidth: CGFloat = 80
     private var isMenuHidden = true
-
+    private var isMenuMoving = false
+    private var fingerMovedDistance: CGFloat = 0
+    private var minContentScale: CGFloat = 0.8
+    
     private lazy var menuViewContainer: UIView = {
         let view = UIView()
         return view
@@ -51,6 +55,10 @@ class YQSlideMenuController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.menuViewVisibleWidth = self.view.bounds.width - self.contentViewVisibleWidth
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,14 +98,55 @@ class YQSlideMenuController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
 
     //MARK: selector
     func panGestureRecognizer(gesture: UIPanGestureRecognizer) {
-        
+        let point = gesture.translation(in: self.view)
+        if gesture.state == .began {
+            self.updateContentViewShadow()
+            self.isMenuMoving = true
+            fingerMovedDistance = isMenuHidden ? 0 : self.menuViewVisibleWidth
+        } else if gesture.state == .changed {
+            fingerMovedDistance += point.x//begin的距离就不算了，当做触发
+            if fingerMovedDistance > self.menuViewVisibleWidth {
+                fingerMovedDistance = self.menuViewVisibleWidth
+            } else if fingerMovedDistance < 0 {
+                fingerMovedDistance = 0
+            }
+            let delta = fingerMovedDistance / self.menuViewVisibleWidth
+            switch slideStyle {
+            case .normal:
+                self.menuViewContainer.transform = CGAffineTransform(translationX: (1 - delta) * (-self.menuViewVisibleWidth / 3), y: 0)
+                var frame = self.contentViewContainer.frame
+                frame.origin.x = fingerMovedDistance
+                self.contentViewContainer.frame = frame
+                gesture.setTranslation(CGPoint.zero, in: self.view)
+            case .scaleContent:
+                //TODO:忘了这里是什么效果了
+                print("还没实现，快点来实现")
+                
+            }
+        } else if gesture.state == .ended {
+            
+        } else if gesture.state == .changed || gesture.state == .failed {
+            
+        }
+
     }
     
     func tapGestureRecognizer(gesture: UITapGestureRecognizer) {
     
+    }
+    
+    func updateContentViewShadow() {
+        let layer = self.contentViewContainer.layer
+        let path = UIBezierPath(rect: layer.bounds)
+        layer.shadowPath = path.cgPath
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize.zero
+        layer.shadowOpacity = 0.5
+        layer.shadowRadius = 5
     }
     
     func showViewController(viewController: UIViewController) {
