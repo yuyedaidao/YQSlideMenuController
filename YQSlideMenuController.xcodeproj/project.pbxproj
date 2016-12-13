@@ -14,6 +14,9 @@
 		210EA6421DFEE0B4007A4471 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 210EA6401DFEE0B4007A4471 /* LaunchScreen.storyboard */; };
 		210EA64D1DFEE0B4007A4471 /* YQSlideMenuControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA64C1DFEE0B4007A4471 /* YQSlideMenuControllerTests.swift */; };
 		210EA6581DFEE0B4007A4471 /* YQSlideMenuControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6571DFEE0B4007A4471 /* YQSlideMenuControllerUITests.swift */; };
+		210EA6671DFEF164007A4471 /* YQSlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */; };
+		210EA6681DFEF164007A4471 /* YQSlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */; };
+		210EA6691DFEF164007A4471 /* YQSlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,7 @@
 		210EA6531DFEE0B4007A4471 /* YQSlideMenuControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YQSlideMenuControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		210EA6571DFEE0B4007A4471 /* YQSlideMenuControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YQSlideMenuControllerUITests.swift; sourceTree = "<group>"; };
 		210EA6591DFEE0B4007A4471 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YQSlideMenuController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,7 @@
 		210EA6361DFEE0B4007A4471 /* YQSlideMenuController */ = {
 			isa = PBXGroup;
 			children = (
+				210EA6651DFEF122007A4471 /* Classes */,
 				210EA6371DFEE0B4007A4471 /* AppDelegate.swift */,
 				210EA6391DFEE0B4007A4471 /* ViewController.swift */,
 				210EA63B1DFEE0B4007A4471 /* Main.storyboard */,
@@ -123,6 +128,14 @@
 				210EA6591DFEE0B4007A4471 /* Info.plist */,
 			);
 			path = YQSlideMenuControllerUITests;
+			sourceTree = "<group>";
+		};
+		210EA6651DFEF122007A4471 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				210EA63A1DFEE0B4007A4471 /* ViewController.swift in Sources */,
+				210EA6671DFEF164007A4471 /* YQSlideMenuController.swift in Sources */,
 				210EA6381DFEE0B4007A4471 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				210EA6681DFEF164007A4471 /* YQSlideMenuController.swift in Sources */,
 				210EA64D1DFEE0B4007A4471 /* YQSlideMenuControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				210EA6691DFEF164007A4471 /* YQSlideMenuController.swift in Sources */,
 				210EA6581DFEE0B4007A4471 /* YQSlideMenuControllerUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
