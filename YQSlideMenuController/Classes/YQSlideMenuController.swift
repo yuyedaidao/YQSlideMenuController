@@ -125,7 +125,6 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
             case .scaleContent:
                 self.menuViewContainer.transform = CGAffineTransform(translationX: (1 - delta) * (-self.menuViewVisibleWidth / 3), y: 0)
                 let scale = 1 - (1 - self.minContentScale) * delta
-                print(scale)
                 let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
                 let translationTransform = CGAffineTransform(translationX: fingerMovedDistance * scale, y: 0)
                 self.contentViewContainer.transform = scaleTransform.concatenating(translationTransform)
