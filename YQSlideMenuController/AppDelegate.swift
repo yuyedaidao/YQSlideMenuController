@@ -16,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let rootViewController = storyboard.instantiateInitialViewController() as! YQSlideMenuController
+        rootViewController.leftMenuViewController = storyboard.instantiateViewController(withIdentifier: "\(MenuViewController.self)")
+        rootViewController.contentViewController = storyboard.instantiateViewController(withIdentifier: "ContentNavigationController")
+        rootViewController.slideStyle = .scaleContent
+        self.window?.rootViewController = rootViewController;
+        self.window?.makeKeyAndVisible()
         return true
     }
 

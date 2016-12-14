@@ -13,11 +13,11 @@ enum YQSlideStyle {
     case scaleContent
 }
 
-class YQSlideMenuController: UIViewController {
+class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
 
-    private let leftMenuViewController: UIViewController
-    private let contentViewController: UIViewController
-    private var slideStyle: YQSlideStyle = .normal
+    var leftMenuViewController: UIViewController?
+    var contentViewController: UIViewController?
+    var slideStyle: YQSlideStyle = .normal
     private var menuViewVisibleWidth: CGFloat = 0
     private var contentViewVisibleWidth: CGFloat = 80
     private var isMenuHidden = true
@@ -33,15 +33,16 @@ class YQSlideMenuController: UIViewController {
         let view = UIView()
         return view
     }()
-    private lazy var gestureRecognizerView: UIView = {
+    private lazy var tapGestureRecognizerView: UIView = {
         let view = UIView()
         view.isHidden = true
         view.backgroundColor = UIColor.clear
         return view
     }()
     
-    private let edgePanGesture: UIPanGestureRecognizer = {
+    private lazy var edgePanGesture: UIPanGestureRecognizer = {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizer(gesture:)))
+        gesture.delegate = self
         return gesture
     }()
     
@@ -52,7 +53,7 @@ class YQSlideMenuController: UIViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,42 +64,44 @@ class YQSlideMenuController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        func layoutViewEqualSuperView(view: UIView) {
-            view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.leading, relatedBy: .equal, toItem: view.superview, attribute: .leading, multiplier: 1, constant: 0))
-            view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: view.superview, attribute: .top, multiplier: 1, constant: 0))
-            view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: view.superview, attribute: .width, multiplier: 1, constant: 0))
-            view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: view.superview, attribute: .height, multiplier: 1, constant: 0))
-        }
         self.view.addSubview(self.menuViewContainer)
         self.view.addSubview(self.contentViewContainer)
         layoutViewEqualSuperView(view: self.menuViewContainer)
         layoutViewEqualSuperView(view: self.contentViewContainer)
         
-        self.addChildViewController(self.leftMenuViewController)
-        self.leftMenuViewController.view.frame = self.view.bounds
-        self.menuViewContainer.addSubview(self.leftMenuViewController.view)
-        layoutViewEqualSuperView(view: self.leftMenuViewController.view)
-        self.leftMenuViewController.didMove(toParentViewController: self)
+        if let vc = self.leftMenuViewController {
+            self.addViewController(vc, inView: self.menuViewContainer)
+        }
+        if let vc = self.contentViewController {
+            self.addViewController(vc, inView: self.contentViewContainer)
+        }
         
-        self.addChildViewController(self.contentViewController)
-        self.contentViewController.view.frame = self.view.bounds
-        self.contentViewContainer.addSubview(self.contentViewController.view)
-        layoutViewEqualSuperView(view: self.contentViewController.view)
-        self.contentViewController.didMove(toParentViewController: self)
-        
-        self.gestureRecognizerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizer(gesture:))))
-        self.contentViewContainer.addSubview(self.gestureRecognizerView)
-        layoutViewEqualSuperView(view: self.gestureRecognizerView)
-        
+        self.contentViewContainer.addGestureRecognizer(self.edgePanGesture)
+        self.contentViewContainer.addSubview(self.tapGestureRecognizerView)
+        self.layoutViewEqualSuperView(view: self.tapGestureRecognizerView)
+        self.tapGestureRecognizerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapGestureRecognizer(gesture:))))
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: helper
+    func addViewController(_ controller: UIViewController, inView view: UIView) {
+        self.addChildViewController(controller)
+        view.addSubview(controller.view)
+        layoutViewEqualSuperView(view: controller.view)
+        controller.didMove(toParentViewController: self)
+    }
     
+    func layoutViewEqualSuperView(view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.leading, relatedBy: .equal, toItem: view.superview, attribute: .leading, multiplier: 1, constant: 0))
+        view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: view.superview, attribute: .top, multiplier: 1, constant: 0))
+        view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: view.superview, attribute: .width, multiplier: 1, constant: 0))
+        view.superview?.addConstraint(NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: view.superview, attribute: .height, multiplier: 1, constant: 0))
+    }
 
     //MARK: selector
     func panGestureRecognizer(gesture: UIPanGestureRecognizer) {
@@ -118,15 +121,16 @@ class YQSlideMenuController: UIViewController {
             switch slideStyle {
             case .normal:
                 self.menuViewContainer.transform = CGAffineTransform(translationX: (1 - delta) * (-self.menuViewVisibleWidth / 3), y: 0)
-                var frame = self.contentViewContainer.frame
-                frame.origin.x = fingerMovedDistance
-                self.contentViewContainer.frame = frame
-                gesture.setTranslation(CGPoint.zero, in: self.view)
+                self.contentViewContainer.transform = CGAffineTransform(translationX: fingerMovedDistance, y: 0)
             case .scaleContent:
-                //TODO:忘了这里是什么效果了
-                print("还没实现，快点来实现")
-                
+                self.menuViewContainer.transform = CGAffineTransform(translationX: (1 - delta) * (-self.menuViewVisibleWidth / 3), y: 0)
+                let scale = 1 - (1 - self.minContentScale) * delta
+                print(scale)
+                let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+                let translationTransform = CGAffineTransform(translationX: fingerMovedDistance * scale, y: 0)
+                self.contentViewContainer.transform = scaleTransform.concatenating(translationTransform)
             }
+            gesture.setTranslation(CGPoint.zero, in: self.view)
         } else if gesture.state == .ended {
             
         } else if gesture.state == .changed || gesture.state == .failed {
@@ -161,6 +165,10 @@ class YQSlideMenuController: UIViewController {
     
     }
     
+    //MARK: override
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     
     /*
     // MARK: - Navigation

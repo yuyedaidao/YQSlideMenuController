@@ -17,6 +17,12 @@
 		210EA6671DFEF164007A4471 /* YQSlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */; };
 		210EA6681DFEF164007A4471 /* YQSlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */; };
 		210EA6691DFEF164007A4471 /* YQSlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */; };
+		21AB00681E012647008D16CE /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB00671E012647008D16CE /* ContentViewController.swift */; };
+		21AB00691E012647008D16CE /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB00671E012647008D16CE /* ContentViewController.swift */; };
+		21AB006A1E012647008D16CE /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB00671E012647008D16CE /* ContentViewController.swift */; };
+		21AB006C1E0126B2008D16CE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB006B1E0126B2008D16CE /* MenuViewController.swift */; };
+		21AB006D1E0126B2008D16CE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB006B1E0126B2008D16CE /* MenuViewController.swift */; };
+		21AB006E1E0126B2008D16CE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AB006B1E0126B2008D16CE /* MenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +57,8 @@
 		210EA6571DFEE0B4007A4471 /* YQSlideMenuControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YQSlideMenuControllerUITests.swift; sourceTree = "<group>"; };
 		210EA6591DFEE0B4007A4471 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YQSlideMenuController.swift; sourceTree = "<group>"; };
+		21AB00671E012647008D16CE /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		21AB006B1E0126B2008D16CE /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +116,8 @@
 				210EA63E1DFEE0B4007A4471 /* Assets.xcassets */,
 				210EA6401DFEE0B4007A4471 /* LaunchScreen.storyboard */,
 				210EA6431DFEE0B4007A4471 /* Info.plist */,
+				21AB00671E012647008D16CE /* ContentViewController.swift */,
+				21AB006B1E0126B2008D16CE /* MenuViewController.swift */,
 			);
 			path = YQSlideMenuController;
 			sourceTree = "<group>";
@@ -275,6 +285,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21AB00681E012647008D16CE /* ContentViewController.swift in Sources */,
+				21AB006C1E0126B2008D16CE /* MenuViewController.swift in Sources */,
 				210EA63A1DFEE0B4007A4471 /* ViewController.swift in Sources */,
 				210EA6671DFEF164007A4471 /* YQSlideMenuController.swift in Sources */,
 				210EA6381DFEE0B4007A4471 /* AppDelegate.swift in Sources */,
@@ -286,7 +298,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				210EA6681DFEF164007A4471 /* YQSlideMenuController.swift in Sources */,
+				21AB00691E012647008D16CE /* ContentViewController.swift in Sources */,
 				210EA64D1DFEE0B4007A4471 /* YQSlideMenuControllerTests.swift in Sources */,
+				21AB006D1E0126B2008D16CE /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +309,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				210EA6691DFEF164007A4471 /* YQSlideMenuController.swift in Sources */,
+				21AB006A1E012647008D16CE /* ContentViewController.swift in Sources */,
 				210EA6581DFEE0B4007A4471 /* YQSlideMenuControllerUITests.swift in Sources */,
+				21AB006E1E0126B2008D16CE /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +546,7 @@
 				210EA65E1DFEE0B4007A4471 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		210EA65F1DFEE0B4007A4471 /* Build configuration list for PBXNativeTarget "YQSlideMenuControllerTests" */ = {
 			isa = XCConfigurationList;
@@ -538,6 +555,7 @@
 				210EA6611DFEE0B4007A4471 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		210EA6621DFEE0B4007A4471 /* Build configuration list for PBXNativeTarget "YQSlideMenuControllerUITests" */ = {
 			isa = XCConfigurationList;
@@ -546,6 +564,7 @@
 				210EA6641DFEE0B4007A4471 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
