@@ -26,6 +26,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     private var isMenuMoving = false
     private var fingerMovedDistance: CGFloat = 0
     private var minContentScale: CGFloat = 0.8
+    private var priorGestures:[AnyClass] = [NSClassFromString("UILongPressGestureRecognizer")!]
     
     private lazy var menuViewContainer: UIView = {
         let view = UIView()
@@ -38,7 +39,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     private lazy var tapGestureRecognizerView: UIView = {
         let view = UIView()
         view.isHidden = true
-        view.backgroundColor = UIColor.red
+        view.backgroundColor = UIColor.clear
         return view
     }()
     
@@ -52,6 +53,13 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         self.contentViewController = contentViewController
         self.leftMenuViewController = leftMenuViewController
         super.init(nibName: nil, bundle: nil)
+        if #available(iOS 9.0, *) {
+            if self.traitCollection.forceTouchCapability == .available {
+                //self.traitCollection.
+                self.priorGestures.append(NSClassFromString("_UIPreviewGestureRecognizer")!)
+                self.priorGestures.append(NSClassFromString("_UIRevealGestureRecognizer")!)
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -170,31 +178,38 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func menuAnimate(show: Bool, duration: TimeInterval) {
-        var transform: CGAffineTransform
+        var contentTransform: CGAffineTransform
+        var menuTransform: CGAffineTransform
         switch slideStyle {
         case .normal:
             if show {
-                transform = CGAffineTransform(translationX: self.menuViewVisibleWidth, y: 0)
+                contentTransform = CGAffineTransform(translationX: self.menuViewVisibleWidth, y: 0)
+                menuTransform = CGAffineTransform.identity
             } else {
-                transform = CGAffineTransform.identity
+                contentTransform = CGAffineTransform.identity
+                menuTransform = CGAffineTransform(translationX: -self.menuViewVisibleWidth / 3, y: 0)
             }
         case .scaleContent:
             if show {
-                transform = CGAffineTransform(a: self.minContentScale, b: 0, c: 0, d: self.minContentScale, tx: (self.minContentScale * 0.5  + 0.5) * self.view.bounds.width - self.contentViewVisibleWidth, ty: 0)
+                contentTransform = CGAffineTransform(a: self.minContentScale, b: 0, c: 0, d: self.minContentScale, tx: (self.minContentScale * 0.5  + 0.5) * self.view.bounds.width - self.contentViewVisibleWidth, ty: 0)
+                menuTransform = CGAffineTransform.identity
             } else {
-                transform = CGAffineTransform.identity
+                contentTransform = CGAffineTransform.identity
+                menuTransform = CGAffineTransform(translationX: -self.menuViewVisibleWidth / 3, y: 0)
             }
         }
         if duration > 0 {
             UIView.animate(withDuration: duration, animations: { 
-                self.contentViewContainer.transform = transform
+                self.contentViewContainer.transform = contentTransform
+                self.menuViewContainer.transform = menuTransform
             }, completion: { (finish) in
                 self.isMenuMoving = false
                 self.isMenuHidden = !show
                 self.tapGestureRecognizerView.isHidden = !show
             })
         } else {
-            self.contentViewContainer.transform = transform
+            self.contentViewContainer.transform = contentTransform
+            self.menuViewContainer.transform = menuTransform
             self.isMenuMoving = false
             self.isMenuHidden = !show
             self.tapGestureRecognizerView.isHidden = !show
@@ -202,8 +217,25 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: override
+    
+     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        NSLog("BB\n A:%@\nB:%@", gestureRecognizer, otherGestureRecognizer)
+        if gestureRecognizer == self.edgePanGesture {
+            return true
+        }
+        return false
+     }
+ 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        NSLog("AA\n A:%@\nB:%@", gestureRecognizer, otherGestureRecognizer)
+        if gestureRecognizer == self.edgePanGesture {
+            for obj in self.priorGestures {
+                if otherGestureRecognizer.isKind(of: obj) {
+                    return true
+                }
+            }
+        }
+        return false
     }
     
     /*

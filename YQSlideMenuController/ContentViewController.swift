@@ -8,16 +8,22 @@
 
 import UIKit
 
-class ContentViewController: UITableViewController {
+class ContentViewController: UITableViewController, UIViewControllerPreviewingDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: UITableViewCell.self))
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        if #available(iOS 9.0, *) {
+            if self.traitCollection.forceTouchCapability == .available{
+                self.registerForPreviewing(with: self, sourceView: self.tableView)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,23 +35,35 @@ class ContentViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 100
     }
 
-    /*
+    @available(iOS 9.0, *)
+    public func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        let detail = DetailViewController(nibName: nil, bundle: nil)
+        if let cell = self.tableView.cellForRow(at: self.tableView.indexPathForRow(at: location)!) {
+            previewingContext.sourceRect = cell.frame
+        }
+        
+        return detail;
+    }
+    
+    @available(iOS 9.0, *)
+    public func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: UITableViewCell.self), for: indexPath)
+        cell.textLabel?.text = "Menu \(indexPath.row)"
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
