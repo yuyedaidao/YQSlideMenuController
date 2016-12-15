@@ -13,13 +13,15 @@ enum YQSlideStyle {
     case scaleContent
 }
 
+let kAnimationDuration: TimeInterval = 0.3
+
 class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
 
     var leftMenuViewController: UIViewController?
     var contentViewController: UIViewController?
     var slideStyle: YQSlideStyle = .normal
     private var menuViewVisibleWidth: CGFloat = 0
-    private var contentViewVisibleWidth: CGFloat = 80
+    private var contentViewVisibleWidth: CGFloat = 100
     private var isMenuHidden = true
     private var isMenuMoving = false
     private var fingerMovedDistance: CGFloat = 0
@@ -36,7 +38,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     private lazy var tapGestureRecognizerView: UIView = {
         let view = UIView()
         view.isHidden = true
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.red
         return view
     }()
     
@@ -125,21 +127,24 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
             case .scaleContent:
                 self.menuViewContainer.transform = CGAffineTransform(translationX: (1 - delta) * (-self.menuViewVisibleWidth / 3), y: 0)
                 let scale = 1 - (1 - self.minContentScale) * delta
-                let scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-                let translationTransform = CGAffineTransform(translationX: fingerMovedDistance * scale, y: 0)
-                self.contentViewContainer.transform = scaleTransform.concatenating(translationTransform)
+                let transform = CGAffineTransform(a: scale, b: 0, c: 0, d: scale, tx: ((1 - (1 - self.minContentScale) * self.fingerMovedDistance / self.menuViewVisibleWidth) * 0.5 - 0.5) * self.view.bounds.width + self.fingerMovedDistance, ty: 0)
+                self.contentViewContainer.transform = transform
             }
             gesture.setTranslation(CGPoint.zero, in: self.view)
-        } else if gesture.state == .ended {
-            
-        } else if gesture.state == .changed || gesture.state == .failed {
-            
+        } else if gesture.state == .ended || gesture.state == .cancelled || gesture.state == .failed{
+            if fingerMovedDistance < self.menuViewVisibleWidth / 2 {
+                //关闭菜单
+                self.menuAnimate(show: false, duration: TimeInterval(fingerMovedDistance / self.menuViewVisibleWidth) * kAnimationDuration)
+            } else {
+                //打开菜单
+                self.menuAnimate(show: true, duration: TimeInterval(1 - fingerMovedDistance / self.menuViewVisibleWidth) * kAnimationDuration)
+            }
         }
 
     }
     
     func tapGestureRecognizer(gesture: UITapGestureRecognizer) {
-    
+        self.hideMenu()
     }
     
     func updateContentViewShadow() {
@@ -153,15 +158,47 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func showViewController(viewController: UIViewController) {
-        
+         
     }
     
     func hideMenu() {
-        
+        self.menuAnimate(show: false, duration: kAnimationDuration)
     }
     
     func showMenu() {
+        self.menuAnimate(show: true, duration: kAnimationDuration)
+    }
     
+    func menuAnimate(show: Bool, duration: TimeInterval) {
+        var transform: CGAffineTransform
+        switch slideStyle {
+        case .normal:
+            if show {
+                transform = CGAffineTransform(translationX: self.menuViewVisibleWidth, y: 0)
+            } else {
+                transform = CGAffineTransform.identity
+            }
+        case .scaleContent:
+            if show {
+                transform = CGAffineTransform(a: self.minContentScale, b: 0, c: 0, d: self.minContentScale, tx: (self.minContentScale * 0.5  + 0.5) * self.view.bounds.width - self.contentViewVisibleWidth, ty: 0)
+            } else {
+                transform = CGAffineTransform.identity
+            }
+        }
+        if duration > 0 {
+            UIView.animate(withDuration: duration, animations: { 
+                self.contentViewContainer.transform = transform
+            }, completion: { (finish) in
+                self.isMenuMoving = false
+                self.isMenuHidden = !show
+                self.tapGestureRecognizerView.isHidden = !show
+            })
+        } else {
+            self.contentViewContainer.transform = transform
+            self.isMenuMoving = false
+            self.isMenuHidden = !show
+            self.tapGestureRecognizerView.isHidden = !show
+        }
     }
     
     //MARK: override
