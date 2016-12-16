@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "YQSlideMenuController"
-  s.version      = "0.1.1"
+  s.name         = "YQSlideMenuController-Swift"
+  s.version      = "0.1.2"
   s.summary      = "Swift SlideMenu."
 
   # This description is used to generate tags and improve search results.

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum YQSlideStyle {
+public enum YQSlideStyle {
     case normal
     case scaleContent
 }
@@ -20,11 +20,11 @@ protocol YQSlideMenuControllerDelegate {
     func yq_navigationController() -> UINavigationController
 }
 
-class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
+public class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
 
-    var leftMenuViewController: UIViewController?
-    var contentViewController: UIViewController?
-    var slideStyle: YQSlideStyle = .normal
+    public var leftMenuViewController: UIViewController?
+    public var contentViewController: UIViewController?
+    public var slideStyle: YQSlideStyle = .normal
     private var menuViewVisibleWidth: CGFloat = 0
     private var contentViewVisibleWidth: CGFloat = 100
     private var isMenuHidden = true
@@ -67,16 +67,16 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.menuViewVisibleWidth = self.view.bounds.width - self.contentViewVisibleWidth
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.addSubview(self.menuViewContainer)
@@ -97,7 +97,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         self.tapGestureRecognizerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapGestureRecognizer(gesture:))))
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -170,7 +170,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         layer.shadowRadius = 5
     }
     
-    func showViewController(viewController: UIViewController) {
+    public func showViewController(viewController: UIViewController) {
         var nav: UINavigationController?
         if let delegate = self.contentViewController as? YQSlideMenuControllerDelegate {
             nav = delegate.yq_navigationController()
@@ -184,11 +184,11 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func hideMenu() {
+    public func hideMenu() {
         self.menuAnimate(show: false, duration: kAnimationDuration)
     }
     
-    func showMenu() {
+    public func showMenu() {
         self.menuAnimate(show: true, duration: kAnimationDuration)
     }
     
@@ -233,7 +233,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: override
     
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if self.isMenuHidden {
             let point = gestureRecognizer.location(in: gestureRecognizer.view)
             var nav: UINavigationController?
@@ -262,7 +262,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.edgePanGesture {
             for obj in self.priorGestures {
                 if otherGestureRecognizer.isKind(of: obj) {
@@ -273,7 +273,7 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         return false
     }
  
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.edgePanGesture {
             return true
         }
