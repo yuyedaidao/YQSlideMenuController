@@ -219,21 +219,19 @@ class YQSlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     //MARK: override
     
      func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        NSLog("BB\n A:%@\nB:%@", gestureRecognizer, otherGestureRecognizer)
-        if gestureRecognizer == self.edgePanGesture {
-            return true
-        }
-        return false
-     }
- 
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        NSLog("AA\n A:%@\nB:%@", gestureRecognizer, otherGestureRecognizer)
         if gestureRecognizer == self.edgePanGesture {
             for obj in self.priorGestures {
                 if otherGestureRecognizer.isKind(of: obj) {
                     return true
                 }
             }
+        }
+        return false
+    }
+ 
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == self.edgePanGesture {
+            return true
         }
         return false
     }
