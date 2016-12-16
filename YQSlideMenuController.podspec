@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "YQSlideMenuController"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "Swift SlideMenu."
 
   # This description is used to generate tags and improve search results.
@@ -37,8 +37,7 @@ Pod::Spec.new do |s|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-
-  s.license      = {:type => "MIT", :file => "LICENSE" }
+  s.license      = "MIT"
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
