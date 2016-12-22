@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21008B241E0BB22D0040FD68 /* UIViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21008B231E0BB22D0040FD68 /* UIViewController-Extension.swift */; };
+		21008B251E0BB22D0040FD68 /* UIViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21008B231E0BB22D0040FD68 /* UIViewController-Extension.swift */; };
+		21008B261E0BB22D0040FD68 /* UIViewController-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21008B231E0BB22D0040FD68 /* UIViewController-Extension.swift */; };
 		210EA6381DFEE0B4007A4471 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6371DFEE0B4007A4471 /* AppDelegate.swift */; };
 		210EA63A1DFEE0B4007A4471 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210EA6391DFEE0B4007A4471 /* ViewController.swift */; };
 		210EA63D1DFEE0B4007A4471 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 210EA63B1DFEE0B4007A4471 /* Main.storyboard */; };
@@ -46,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		21008B231E0BB22D0040FD68 /* UIViewController-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController-Extension.swift"; sourceTree = "<group>"; };
 		210EA6341DFEE0B4007A4471 /* YQSlideMenuController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YQSlideMenuController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		210EA6371DFEE0B4007A4471 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		210EA6391DFEE0B4007A4471 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 		210EA6651DFEF122007A4471 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				21008B231E0BB22D0040FD68 /* UIViewController-Extension.swift */,
 				210EA6661DFEF164007A4471 /* YQSlideMenuController.swift */,
 			);
 			path = Classes;
@@ -291,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21AB00681E012647008D16CE /* ContentViewController.swift in Sources */,
+				21008B241E0BB22D0040FD68 /* UIViewController-Extension.swift in Sources */,
 				21AB006C1E0126B2008D16CE /* MenuViewController.swift in Sources */,
 				210EA63A1DFEE0B4007A4471 /* ViewController.swift in Sources */,
 				213E20FE1E02E0DE00FA1466 /* DetailViewController.swift in Sources */,
@@ -307,6 +313,7 @@
 				21AB00691E012647008D16CE /* ContentViewController.swift in Sources */,
 				213E20FF1E02E0DE00FA1466 /* DetailViewController.swift in Sources */,
 				210EA64D1DFEE0B4007A4471 /* YQSlideMenuControllerTests.swift in Sources */,
+				21008B251E0BB22D0040FD68 /* UIViewController-Extension.swift in Sources */,
 				21AB006D1E0126B2008D16CE /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +326,7 @@
 				21AB006A1E012647008D16CE /* ContentViewController.swift in Sources */,
 				213E21001E02E0DE00FA1466 /* DetailViewController.swift in Sources */,
 				210EA6581DFEE0B4007A4471 /* YQSlideMenuControllerUITests.swift in Sources */,
+				21008B261E0BB22D0040FD68 /* UIViewController-Extension.swift in Sources */,
 				21AB006E1E0126B2008D16CE /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
